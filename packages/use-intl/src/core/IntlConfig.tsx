@@ -54,7 +54,7 @@ type IntlConfig<Messages = AbstractIntlMessages> = {
 export type InitializedIntlConfig<Messages = AbstractIntlMessages> =
   IntlConfig<Messages> & {
     onError: NonNullable<IntlConfig<Messages>['onError']>;
-    getMessageFallback: NonNullable<IntlConfig<Messages>['getMessageFallback']>;
+    getMessageFallback?: IntlConfig<Messages>['getMessageFallback'];
   };
 
 export default IntlConfig;

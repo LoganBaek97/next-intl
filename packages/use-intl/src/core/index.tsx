@@ -18,3 +18,4 @@ export type {default as NestedKeyOf} from './utils/NestedKeyOf';
 export type {default as NestedValueOf} from './utils/NestedValueOf';
 export {createIntlFormatters as _createIntlFormatters} from './formatters';
 export {createCache as _createCache} from './formatters';
+export {getMessageFallback} from './errorHandling';

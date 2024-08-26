@@ -7,7 +7,7 @@ import NestedKeyOf from './utils/NestedKeyOf';
 
 export type CreateTranslatorImplProps<Messages> = Omit<
   InitializedIntlConfig,
-  'messages'
+  'messages' | 'getMessageFallback'
 > & {
   namespace: string;
   messages: Messages;

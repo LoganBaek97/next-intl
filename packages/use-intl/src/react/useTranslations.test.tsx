@@ -6,6 +6,7 @@ import React, {ComponentProps, ReactNode} from 'react';
 import {it, expect, vi, describe, beforeEach} from 'vitest';
 import {
   Formats,
+  getMessageFallback,
   IntlError,
   IntlErrorCode,
   RichTranslationValues,
@@ -558,7 +559,7 @@ describe('t.raw', () => {
 });
 
 describe('error handling', () => {
-  it('allows to configure a fallback', () => {
+  it('allows to configure a fallback via the `getMessageFallback` prop', () => {
     const onError = vi.fn();
 
     function Component() {
@@ -579,6 +580,34 @@ describe('error handling', () => {
 
     expect(onError).toHaveBeenCalled();
     screen.getByText('fallback');
+  });
+
+  it.only('allows to configure a fallback via the `getMessageFallback` global function', () => {
+    const onError = vi.fn();
+    const messageFallbackFn = vi.fn(() => 'fallback1');
+    getMessageFallback(messageFallbackFn);
+
+    function Component() {
+      const t = useTranslations('Component');
+      return <>{t('label')}</>;
+    }
+
+    render(
+      <IntlProvider locale="en" messages={{}} onError={onError}>
+        <Component />
+      </IntlProvider>
+    );
+
+    expect(onError).toHaveBeenCalled();
+    screen.getByText('fallback1');
+
+    getMessageFallback(undefined);
+
+    expect(messageFallbackFn).toHaveBeenCalledWith({
+      error: expect.any(IntlError),
+      key: 'label',
+      namespace: 'Component'
+    });
   });
 
   it('handles unavailable namespaces', () => {

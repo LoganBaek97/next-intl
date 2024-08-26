@@ -1,5 +1,6 @@
 import {useTranslations} from 'next-intl';
 import {unstable_setRequestLocale} from 'next-intl/server';
+import {huhu} from './test';
 import PageLayout from '@/components/PageLayout';
 
 type Props = {
@@ -14,6 +15,8 @@ export default function IndexPage({params: {locale}}: Props) {
 
   return (
     <PageLayout title={t('title')}>
+      <p>{huhu.test}</p>
+      <p>{t('sdf')}</p>
       <p className="max-w-[590px]">
         {t.rich('description', {
           code: (chunks) => (

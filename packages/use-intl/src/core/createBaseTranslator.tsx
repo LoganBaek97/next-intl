@@ -17,6 +17,7 @@ import TranslationValues, {
 } from './TranslationValues';
 import convertFormatsToIntlMessageFormat from './convertFormatsToIntlMessageFormat';
 import {defaultGetMessageFallback, defaultOnError} from './defaults';
+import {errorHandlers, MessageFallbackInfo} from './errorHandling';
 import {
   Formatters,
   IntlCache,
@@ -198,13 +199,24 @@ function createBaseTranslatorImpl<
   defaultTranslationValues,
   formats: globalFormats,
   formatters,
-  getMessageFallback = defaultGetMessageFallback,
+  // where should default be read? we only want to use one or the other
+  getMessageFallback: _getMessageFallback,
   locale,
   messagesOrError,
   namespace,
   onError,
   timeZone
-}: CreateBaseTranslatorProps<Messages>) {
+}: Omit<CreateBaseTranslatorProps<Messages>, 'getMessageFallback'> & {
+  getMessageFallback?: typeof defaultGetMessageFallback;
+}) {
+  function getMessageFallback(info: MessageFallbackInfo) {
+    return (
+      _getMessageFallback?.(info) ||
+      errorHandlers.getMessageFallback?.(info) ||
+      defaultGetMessageFallback(info)
+    );
+  }
+
   function getFallbackFromErrorAndNotify(
     key: string,
     code: IntlErrorCode,

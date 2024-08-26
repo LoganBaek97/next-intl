@@ -6,7 +6,7 @@ import TranslationValues, {
   RichTranslationValues
 } from './TranslationValues';
 import createTranslatorImpl from './createTranslatorImpl';
-import {defaultGetMessageFallback, defaultOnError} from './defaults';
+import {defaultOnError} from './defaults';
 import {
   createCache,
   createIntlFormatters,
@@ -34,7 +34,6 @@ export default function createTranslator<
 >({
   _cache = createCache(),
   _formatters = createIntlFormatters(_cache),
-  getMessageFallback = defaultGetMessageFallback,
   messages,
   namespace,
   onError = defaultOnError,
@@ -138,7 +137,6 @@ export default function createTranslator<
       onError,
       cache: _cache,
       formatters: _formatters,
-      getMessageFallback,
       // @ts-expect-error `messages` is allowed to be `undefined` here and will be handled internally
       messages: {'!': messages},
       namespace: namespace ? `!.${namespace}` : '!'
