@@ -7,6 +7,7 @@ import resolve, {
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import {execa} from 'execa';
+import {tsAddJsExtension} from 'ts-add-js-extension';
 
 const extensions = [...resolveDefaults.extensions, '.tsx'];
 
@@ -15,7 +16,14 @@ const outDir = 'dist/';
 async function buildTypes() {
   await execa('tsc', '-p tsconfig.build.json'.split(' '));
 
-  console.log('\ncreated types');
+  console.log('\ncreated types, rewriting imports in declaration files ...\n');
+
+  // Bug: https://github.com/GervinFung/ts-add-js-extension/issues/100
+  tsAddJsExtension({
+    config: {
+      dir: './dist/types'
+    }
+  });
 }
 
 function getBundleConfig({
