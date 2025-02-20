@@ -1,7 +1,6 @@
-import {useTranslations} from 'next-intl';
+import NextLink from 'next/link';
 import {ReactNode} from 'react';
 import {Link} from '@/i18n/routing';
-import ExternalLink from './ExternalLink';
 
 type Props = {
   children?: ReactNode;
@@ -9,8 +8,6 @@ type Props = {
 };
 
 export default function PageLayout({children, title}: Props) {
-  const t = useTranslations('PageLayout');
-
   return (
     <div className="relative flex grow flex-col bg-slate-850 py-36">
       <div className="absolute inset-0 overflow-hidden">
@@ -18,26 +15,23 @@ export default function PageLayout({children, title}: Props) {
       </div>
       <div className="container relative flex grow flex-col px-4">
         <div className="flex flex-col gap-4 text-white">
-          <Link className="rounded-xl border" href="/pathnames?locale=en">
-            /pathnames?locale=en
+          <Link
+            className="mb-10 rounded-xl border text-5xl"
+            href="/pathnames?locale=en"
+          >
+            {"I'm i18n Link. Click me to reproduce the issue"}
           </Link>
+          <NextLink
+            className="mb-10 rounded-xl border text-5xl"
+            href="/pathnames?locale=en"
+          >
+            {"I'm a NextLink"}
+          </NextLink>
         </div>
         <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
           {title}
         </h1>
         <div className="mt-6 text-gray-400 md:text-lg">{children}</div>
-        <div className="mt-auto grid grid-cols-1 gap-4 pt-20 md:grid-cols-2 lg:gap-12">
-          <ExternalLink
-            description={t('links.docs.description')}
-            href={t('links.docs.href')}
-            title={t('links.docs.title')}
-          />
-          <ExternalLink
-            description={t('links.source.description')}
-            href={t('links.source.href')}
-            title={t('links.source.title')}
-          />
-        </div>
       </div>
     </div>
   );
