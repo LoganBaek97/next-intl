@@ -118,17 +118,6 @@ export default {
   },
   head: function Head() {
     const pageConfig = useConfig();
-    const {route} = useRouter();
-    const isDefault = route === '/' || !pageConfig.title;
-
-    const ogPayload = {
-      title: isDefault ? config.description : pageConfig.title,
-      subtitle: pageConfig.frontMatter.subtitle
-    };
-    const ogImageUrl = new URL('/api/og-image', config.baseUrl);
-    ogImageUrl.search = new URLSearchParams({
-      params: JSON.stringify(ogPayload)
-    }).toString();
 
     const description =
       pageConfig.frontMatter.description ||
@@ -144,8 +133,6 @@ export default {
         <meta content={description} name="description" />
         <meta content={description} name="og:description" />
         <meta content={description} name="twitter:description" />
-
-        <meta content={ogImageUrl.toString()} name="og:image" />
 
         <link
           href="/favicon/apple-touch-icon.png"
