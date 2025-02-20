@@ -1,5 +1,6 @@
 import {useTranslations} from 'next-intl';
 import {ReactNode} from 'react';
+import {Link} from '@/i18n/routing';
 import ExternalLink from './ExternalLink';
 
 type Props = {
@@ -16,6 +17,11 @@ export default function PageLayout({children, title}: Props) {
         <div className="absolute left-0 top-1 size-[20500px] translate-x-[-47.5%] rounded-full bg-gradient-to-b from-slate-900 via-cyan-500" />
       </div>
       <div className="container relative flex grow flex-col px-4">
+        <div className="flex flex-col gap-4 text-white">
+          <Link className="rounded-xl border" href="/pathnames?locale=en">
+            /pathnames?locale=en
+          </Link>
+        </div>
         <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
           {title}
         </h1>
